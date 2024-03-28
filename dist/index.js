@@ -21,7 +21,7 @@ app.get('/channel', async (req, res) => {
         });
     }
     const response = await getAll(id.toString());
-    return { ...response };
+    return res.status(200).json({ ...response });
 });
 app.get('/info', async (req, res) => {
     const id = req.query.id;
@@ -31,7 +31,7 @@ app.get('/info', async (req, res) => {
         });
     }
     const response = await getInfo(id.toString());
-    return { ...response };
+    return res.status(200).json({ ...response });
 });
 app.listen(3000, () => {
     console.log('Server started');
