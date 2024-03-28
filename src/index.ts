@@ -1,6 +1,17 @@
 import express from 'express';
 import cors from 'cors';
-import { AllResponse, getAll, getInfo, Short, Stream, Video } from 'ytscr'; // Update this import based on your actual imports
+import {
+  AllResponse,
+  getAll,
+  getInfo,
+  getShorts,
+  getStreams,
+  getVideos,
+  isLive,
+  Short,
+  Stream,
+  Video,
+} from 'ytscr'; // Update this import based on your actual imports
 
 const app = express();
 
@@ -13,6 +24,94 @@ app.get('/', (req, res) => {
 });
 
 type FilterKeys = keyof AllResponse;
+
+app.get('/channel/videos', async (req, res) => {
+  const id: string = req.query.id as string;
+
+  if (!id) {
+    return res.status(400).json({
+      message: 'No id was provided.',
+    });
+  }
+
+  if (!id.startsWith('@')) {
+    return res.status(400).json({
+      message: 'Invalid channel id',
+    });
+  }
+
+  const videos = await getVideos(id);
+
+  return res.status(200).json({
+    videos,
+  });
+});
+
+app.get('/channel/shorts', async (req, res) => {
+  const id: string = req.query.id as string;
+
+  if (!id) {
+    return res.status(400).json({
+      message: 'No id was provided.',
+    });
+  }
+
+  if (!id.startsWith('@')) {
+    return res.status(400).json({
+      message: 'Invalid channel id',
+    });
+  }
+
+  const videos = await getShorts(id);
+
+  return res.status(200).json({
+    videos,
+  });
+});
+
+app.get('/channel/streams', async (req, res) => {
+  const id: string = req.query.id as string;
+
+  if (!id) {
+    return res.status(400).json({
+      message: 'No id was provided.',
+    });
+  }
+
+  if (!id.startsWith('@')) {
+    return res.status(400).json({
+      message: 'Invalid channel id',
+    });
+  }
+
+  const videos = await getStreams(id);
+
+  return res.status(200).json({
+    videos,
+  });
+});
+
+app.get('/channel/isLive', async (req, res) => {
+  const id: string = req.query.id as string;
+
+  if (!id) {
+    return res.status(400).json({
+      message: 'No id was provided.',
+    });
+  }
+
+  if (!id.startsWith('@')) {
+    return res.status(400).json({
+      message: 'Invalid channel id',
+    });
+  }
+
+  const videos = await isLive(id);
+
+  return res.status(200).json({
+    videos,
+  });
+});
 
 app.get('/channel', async (req, res) => {
   const id: string | undefined = req.query.id as string | undefined;

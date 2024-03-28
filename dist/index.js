@@ -1,11 +1,79 @@
 import express from 'express';
 import cors from 'cors';
-import { getAll, getInfo } from 'ytscr'; // Update this import based on your actual imports
+import { getAll, getInfo, getShorts, getStreams, getVideos, isLive, } from 'ytscr'; // Update this import based on your actual imports
 const app = express();
 app.use(cors());
 app.get('/', (req, res) => {
     res.status(200).json({
         message: 'YouTube Data API v3',
+    });
+});
+app.get('/channel/videos', async (req, res) => {
+    const id = req.query.id;
+    if (!id) {
+        return res.status(400).json({
+            message: 'No id was provided.',
+        });
+    }
+    if (!id.startsWith('@')) {
+        return res.status(400).json({
+            message: 'Invalid channel id',
+        });
+    }
+    const videos = await getVideos(id);
+    return res.status(200).json({
+        videos,
+    });
+});
+app.get('/channel/shorts', async (req, res) => {
+    const id = req.query.id;
+    if (!id) {
+        return res.status(400).json({
+            message: 'No id was provided.',
+        });
+    }
+    if (!id.startsWith('@')) {
+        return res.status(400).json({
+            message: 'Invalid channel id',
+        });
+    }
+    const videos = await getShorts(id);
+    return res.status(200).json({
+        videos,
+    });
+});
+app.get('/channel/streams', async (req, res) => {
+    const id = req.query.id;
+    if (!id) {
+        return res.status(400).json({
+            message: 'No id was provided.',
+        });
+    }
+    if (!id.startsWith('@')) {
+        return res.status(400).json({
+            message: 'Invalid channel id',
+        });
+    }
+    const videos = await getStreams(id);
+    return res.status(200).json({
+        videos,
+    });
+});
+app.get('/channel/isLive', async (req, res) => {
+    const id = req.query.id;
+    if (!id) {
+        return res.status(400).json({
+            message: 'No id was provided.',
+        });
+    }
+    if (!id.startsWith('@')) {
+        return res.status(400).json({
+            message: 'Invalid channel id',
+        });
+    }
+    const videos = await isLive(id);
+    return res.status(200).json({
+        videos,
     });
 });
 app.get('/channel', async (req, res) => {
