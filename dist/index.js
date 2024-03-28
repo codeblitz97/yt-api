@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { getAll, getInfo, getShorts, getStreams, getVideos, isLive, } from 'ytscr'; // Update this import based on your actual imports
+import { getAll, getInfo, getShorts, getStreams, getVideos, isLive, } from 'ytscr';
 const app = express();
 app.use(cors());
 app.get('/', (req, res) => {

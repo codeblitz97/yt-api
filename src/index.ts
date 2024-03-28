@@ -8,10 +8,7 @@ import {
   getStreams,
   getVideos,
   isLive,
-  Short,
-  Stream,
-  Video,
-} from 'ytscr'; // Update this import based on your actual imports
+} from 'ytscr';
 
 const app = express();
 
